@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
     working_directory: ~/repo
     environment:
       - SOURCE_BRANCH: master
@@ -15,7 +15,9 @@ jobs:
           - v1-dependencies-
       - run:
           name: Install dependencies
-          command: npm install
+          command: |
+            cd website
+            npm install
       - save_cache:
           paths:
             - node_modules
@@ -39,9 +41,9 @@ jobs:
 
               npm run build
 
-              cp -a build/. out/.
+              cp -a build/webmonetization.org/. out/.
 
-              mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
+              mkdir -p out/.circleci && cp -a ../.circleci/. out/.circleci/.
               cd out
 
               git add -A
